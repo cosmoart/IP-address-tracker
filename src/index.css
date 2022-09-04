@@ -1,0 +1,38 @@
+:root {
+	--VeryDarkGray: hsl(0, 0%, 17%);
+	--DarkGray: hsl(0, 0%, 59%);
+}
+
+body {
+	background: url("assets/images/pattern-bg.png") no-repeat;
+	background-size: auto 40vh;
+	font-family: Rubik, system-ui;
+	color: var(--VeryDarkGray);
+	text-align: center;
+	min-height: 100vh;
+}
+
+@font-face {
+	font-family: Rubik;
+	src: url(assets/fonts/Rubik-Bold.ttf);
+	font-weight: 700;
+}
+
+@font-face {
+	font-family: Rubik;
+	src: url(assets/fonts/Rubik-Medium.ttf);
+	font-weight: 500;
+}
+
+@font-face {
+	font-family: Rubik;
+	src: url(assets/fonts/Rubik-Regular.ttf);
+	font-weight: 400;
+}
+
+#map {
+	width: 100vw;
+	height: 60vh;
+	position: absolute;
+	bottom: 0;
+}
