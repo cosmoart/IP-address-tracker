@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import "./modernNormalize.css";
-// import L from "leaflet"
+import "./mNormalize.css";
 import styled from "styled-components";
 import axios from 'axios';
 import iconArrow from "./assets/icons/icon-arrow.svg";
@@ -34,7 +33,7 @@ const TableInfo = styled.ul`
 		flex-direction: column;
 		text-align: center;
 	}
-	`
+`
 
 const FormInfo = styled.form`
 	margin-bottom: 20px;
@@ -58,22 +57,20 @@ const FormInfo = styled.form`
 function App() {
 	const [query, setQuery] = useState("192.212.174.101");
 	const [info, setInfo] = useState({ "ip": "", "location": "", "timezone": "", "isp": "" });
-	const [loading, setLoading] = useState(true);
 
+	function getInfo(q = "192.212.174.101") {
+		setInfo({ "loading": true })
 
-	function getInfo(q = "8.8.8.8") {
-		setLoading(true)
 		axios.get(`https://geo.ipify.org/api/v2/country,city?apiKey=at_KWi4iJ3mHvSf60uE9YdyDDLUo2owD&ipAddress=${q}`)
 			.then(function (response) {
 				setInfo(response.data);
-				Map.invalidateSize(true)
 				console.log(response.data)
 			})
 			.catch(function (error) {
 				setInfo({ "error": error.message })
 				console.log(error);
 			})
-			.then(() => setLoading(false));
+		// .then(() => setInfo({ "loading": false }));
 	}
 
 	useEffect(() => {
@@ -92,16 +89,11 @@ function App() {
 			maxZoom: 19,
 			attribution: '© OpenStreetMap'
 		}).addTo(map);
-
 	}, []);
-
-	useEffect(() => {
-
-	}, [query]);
 
 	function handleSubmit(e) {
 		e.preventDefault();
-		getInfo(e.target.elements['ip'].value)
+		if (e.target.elements["ip"].value.trim()) getInfo(e.target.elements['ip'].value.trim())
 	}
 
 	return (
@@ -112,15 +104,22 @@ function App() {
 				<button aria-label='Send'><img src={iconArrow} alt="Send" /></button>
 			</FormInfo>
 
-			{info.error
-				? <h1>{info.error || "Oops something is wrong"}</h1>
-				: <TableInfo>
-					<li><span>IP Address:</span><span>{info.ip || "192.212.174.101"}</span></li>
-					<li><span>Location:</span><span>{info.location.region || "Broolyn, NY 10001"}</span></li>
-					<li><span>Timezone:</span><span>UTC {info.location.timezone || "-05:00"}</span></li>
-					<li><span>ISP:</span><span>{info.isp || "SpaceX Starlink"}</span></li>
-				</TableInfo>
-			}
+			<TableInfo>
+				{info.loading
+					? <p>Loading</p>
+					: <>
+						{info.error
+							? <p>{info.error || "Oops something is wrong"}</p>
+							: <>
+								<li><span>IP Address:</span><span>{info.ip || "192.212.174.101"}</span></li>
+								<li><span>Location:</span><span>{info.location.region || "Broolyn, NY 10001"}</span></li>
+								<li><span>Timezone:</span><span>UTC {info.location.timezone || "-05:00"}</span></li>
+								<li><span>ISP:</span><span>{info.isp || "SpaceX Starlink"}</span></li>
+							</>
+						}
+					</>
+				}
+			</TableInfo>
 
 			<div id="map"></div>
 		</>
