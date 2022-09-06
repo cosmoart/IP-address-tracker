@@ -4,28 +4,37 @@ import "./mNormalize.css";
 import styled from "styled-components";
 import axios from 'axios';
 import iconArrow from "./assets/icons/icon-arrow.svg";
+import iconLocation from "./assets/icons/icon-location.svg";
+import iconLoader from "./assets/icons/loader.svg"
 
 const Title = styled.h1`
 	margin: 0 auto;
-	padding: 1.5rem;
-	font-size: 26px;
+	padding: 2rem;
+	font-size: 28px;
+	letter-spacing: 1px;
 	color: white;
 `
 
 const TableInfo = styled.ul`
-	width: 80%;
-	max-width: 45rem;
+	position: relative;
+	z-index: 20;
+	width: 90%;
+	max-width: 69rem;
 	margin: auto;
 	background: white;
 	border-radius: 10px;
 	padding: 2rem;
 	text-align: left;
 	display: inline-flex;
-	gap: 2rem;
-	justify-content: space-around;
+	justify-content: space-between;
 	list-style: none;
 	text-align: left;
-	z-index: 10;
+	gap: 54px;
+	min-height: 9rem;
+	li{
+		width: calc(100%/4);
+		padding-right: 3rem;
+	}
 	span{
 		display: block;
 		font-weight: 500;
@@ -36,33 +45,49 @@ const TableInfo = styled.ul`
 		font-size: 13px;
 	}
 	span:last-of-type{
-		padding-top: 10px;
-		font-size: 20px;
+		padding-top: 18px;
+		font-size: 24px;
+		font-size: clamp(17px,2.3vw,24px);
 		font-weight: bold;
 	}
 	@media screen and (max-width: 770px) {
 		flex-direction: column;
 		text-align: center;
+		align-items: center;
+		max-width: 30rem;
+		gap: 10px;
+		li{
+			width: auto;
+		}
+	}
+	@media screen and (max-width: 1300px) {
+		li{
+			padding-right: 0;
+		}
 	}
 `
 
 const FormInfo = styled.form`
-	width: 70%;
-	max-width: 25rem;
-	margin: 0 auto 20px auto;
+	width: 85%;
+	max-width: 35rem;
+	margin: 0 auto 51px auto;
 	position: relative;
 	input{
-		padding: 15px 25px;
+		padding: 18px 25px;
 		border-radius: 10px;
 		border: none;
 		width: 99%;
 		padding-right: 5rem;
+		letter-spacing: 1px;
+		img{
+			vertical-align: middle;
+		}
 	}
 	button{
 		border: none;
 		background: var(--VeryDarkGray);
 		border-radius: 0 10px 10px 0;
-		padding: 15px 25px;
+		padding: 18px 25px;
 		cursor: pointer;
 		position: absolute;
 		right: 0;
@@ -71,13 +96,25 @@ const FormInfo = styled.form`
 		opacity: .8;
 	}
 `
+const ErrorMessage = styled.p`
+	margin: auto;
+	font-size: 20px;
+	font-weight: 500;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+	gap: 15px;
+	svg{
+		transform: scale(1.4);
+	}
+`
 
 function App() {
 	const [info, setInfo] = useState(
 		{
 			"ip": "192.212.174.101",
 			"location": {
-				"region": "roolyn, NY 10001",
+				"region": `Broolyn, NY 10001`,
 				"timezone": "-05:00",
 				"lat": "43.731567",
 				"lng": "7.414932"
@@ -89,7 +126,7 @@ function App() {
 	const [error, setError] = useState(false);
 
 	var locationIcon = L.icon({
-		iconUrl: 'src/assets/icons/icon-location.svg',
+		iconUrl: iconLocation,
 		iconSize: [40, 50], // size of the icon
 		iconAnchor: [23, 0], // point of the icon which will correspond to marker's location
 	});
@@ -123,10 +160,13 @@ function App() {
 
 			<TableInfo>
 				{loading
-					? <p>Loading</p>
+					? <img src={iconLoader} title="Loading..." style={{ "height": "2.5rem", "margin": "auto" }} />
 					: <>
 						{error
-							? <p>{info.error || "Oops something is wrong"}</p>
+							? <ErrorMessage>
+								<svg fill="#ff4848" height="24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M23 7.444v9.112L16.556 23H7.444L1 16.556V7.444L7.444 1h9.112L23 7.444ZM15.728 3H8.272L3 8.272v7.456L8.272 21h7.456L21 15.728V8.272L15.728 3ZM12 17.998a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm-.997-12h2v8h-2v-8Z" /></svg>
+								{info.error || "Oops something is wrong"}
+							</ErrorMessage>
 							: <>
 								<li><span>IP Address:</span><span>{info.ip || "---"}</span></li>
 								<li><span>Location:</span><span>{info.location.region || "---"}</span></li>
@@ -138,10 +178,11 @@ function App() {
 				}
 			</TableInfo>
 
-			<MapContainer key={JSON.stringify([info.location.lat, info.location.lng])} center={[info.location.lat || 43.731567, info.location.lng || 7.414932]} zoom={16.5} id="map">
+			<MapContainer key={JSON.stringify([info.location.lat, info.location.lng])} center={[info.location.lat || 0, info.location.lng || 0]} zoom={17.5} id="map">
 				<TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-				<Marker position={[info.location.lat || 43.731567, info.location.lng || 7.414932]} icon={locationIcon}></Marker>
+				<Marker position={[info.location.lat || 0, info.location.lng || 0]} icon={locationIcon}></Marker>
 			</MapContainer>
+			{/* <img src="../design/desktop-design.jpg" alt="desktop" id="bg" /> */}
 		</>
 	)
 }
