@@ -82,9 +82,6 @@ const FormInfo = styled.form`
 		width: 99%;
 		padding-right: 5rem;
 		letter-spacing: 1px;
-		img{
-			vertical-align: middle;
-		}
 	}
 	button{
 		border: none;
@@ -94,6 +91,9 @@ const FormInfo = styled.form`
 		cursor: pointer;
 		position: absolute;
 		right: 0;
+		img{
+			vertical-align: middle;
+		}
 	}
 	button:hover{
 		opacity: .8;
@@ -168,7 +168,7 @@ function App() {
 
 			<TableInfo>
 				{loading
-					? <img src={iconLoader} title="Loading..." style={{ "height": "2.5rem", "margin": "auto" }} />
+					? <img src={iconLoader} width="11" height="14" title="Loading..." style={{ "height": "2.5rem", "margin": "auto" }} />
 					: <>
 						{error
 							? <ErrorMessage>

@@ -27,7 +27,6 @@
     -   [What I learned](#what-i-learned)
     -   [Useful resources](#useful-resources)
 -   [Author](#author)
--   [Acknowledgments](#acknowledgments)
 
 </details>
 
@@ -75,39 +74,33 @@ Users should be able to:
 
 ### What I learned
 
-This challenge was a great learning opportunity, it was also very useful to reinforce previous knowledge, and face problems that had not been presented to me before.
+This challenge in particular was easy except for one thing: updating the map when getting the information, in the official Leaflet documentation it is made clear that the map is immutable, so I decided to investigate and found [React Leaflet](https://react-leaflet.js.org), which made it much easier for me. To update the map I used React's key.
 
-To see how you can add code snippets, see below:
+At the end the code of the map is as follows:
 
 ```js
-const proudOfThisFunc = () => {
-	console.log("🎉");
-};
+<MapContainer key={JSON.stringify([info.location.lat, info.location.lng])} center={[info.location.lat || 0, info.location.lng || 0]} zoom={17.5} id="map">
+	<TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+	<Marker position={[info.location.lat || 0, info.location.lng || 0]} icon={locationIcon}></Marker>
+</MapContainer>
 ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Useful resources
 
--   [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
--   [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept.
+-   [React Leaflet](https://react-leaflet.js.org) - Made it easy for me to use leaflet in React
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Author
 
+-   Email - [cosmohydra17@gmail.com](mailto:cosmohydra17@gmail.com)
 -   Instagram - [@cosmo_art0](https://www.instagram.com/cosmo_art0/)
--   Frontend Mentor - [@CosmoArt](https://www.frontendmentor.io/profile/cosmoart)
 -   Twitter - [@CosmoArt0](https://twitter.com/cosmoart0)
--   My personal page - [https://cosmoart.github.io](https://cosmoart.github.io)
+-   Frontend Mentor - [@CosmoArt](https://www.frontendmentor.io/profile/cosmoart)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-## Acknowledgments
-
-<!-- Crédito a otras personas con quien trabaje o me inspire -->
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-[live-page]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[live-page]: https://ip-trackerr.vercel.app
 [solution-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
