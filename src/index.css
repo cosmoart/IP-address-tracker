@@ -51,11 +51,3 @@ input[type="search"]:hover::-webkit-search-cancel-button {
 	bottom: 0;
 	z-index: 10;
 }
-
-#bg {
-	position: absolute;
-	top: 0;
-	left: 0;
-	opacity: .5;
-	z-index: 100;
-}

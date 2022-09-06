@@ -49,9 +49,6 @@ Users should be able to:
 		    <td>
                 <img src="./screenshots/mobile.webp" width="100%" title="Mobile solution"  />
             </td>
-			<td>
-                <img src="./screenshots/tablet.webp" width="100%" title="Tablet solution"/>
-            </td>
             <td>
                 <img src="./screenshots/desktop.webp" width="100%" title="Desktop solution"/>
             </td>

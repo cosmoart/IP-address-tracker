@@ -55,9 +55,12 @@ const TableInfo = styled.ul`
 		text-align: center;
 		align-items: center;
 		max-width: 30rem;
-		gap: 10px;
+		gap: 20px;
 		li{
 			width: auto;
+		}
+		span:last-of-type{
+			padding-top:6px;
 		}
 	}
 	@media screen and (max-width: 1300px) {
@@ -131,10 +134,10 @@ function App() {
 		iconAnchor: [23, 0], // point of the icon which will correspond to marker's location
 	});
 
-	function getInfo(q = "192.212.174.101") {
+	function getInfo(ip = "192.212.174.101", domain = "") {
 		setLoading(true)
 
-		axios.get(`https://geo.ipify.org/api/v2/country,city?apiKey=at_KWi4iJ3mHvSf60uE9YdyDDLUo2owD&ipAddress=${q}`)
+		axios.get(`https://geo.ipify.org/api/v2/country,city?apiKey=at_KWi4iJ3mHvSf60uE9YdyDDLUo2owD&ipAddress=${ip}&domain=${domain}`)
 			.then(function (res) {
 				setInfo(res.data);
 				console.log(res.data);
@@ -147,7 +150,12 @@ function App() {
 
 	function handleSubmit(e) {
 		e.preventDefault();
-		if (e.target.elements["ip"].value.trim()) getInfo(e.target.elements['ip'].value.trim());
+		const IP_REGEX = /^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$/
+		const DOMAIN_REGEX = /(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]/g
+
+		if (IP_REGEX.test(e.target.elements["ip"].value.trim())) return getInfo(e.target.elements['ip'].value.trim());
+		if (DOMAIN_REGEX.test(e.target.elements["ip"].value.trim())) return getInfo("", e.target.elements['ip'].value.trim());
+		setError("Please enter a valid IP address or domain")
 	}
 
 	return (
@@ -165,7 +173,7 @@ function App() {
 						{error
 							? <ErrorMessage>
 								<svg fill="#ff4848" height="24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M23 7.444v9.112L16.556 23H7.444L1 16.556V7.444L7.444 1h9.112L23 7.444ZM15.728 3H8.272L3 8.272v7.456L8.272 21h7.456L21 15.728V8.272L15.728 3ZM12 17.998a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm-.997-12h2v8h-2v-8Z" /></svg>
-								{info.error || "Oops something is wrong"}
+								{error || "Oops something is wrong"}
 							</ErrorMessage>
 							: <>
 								<li><span>IP Address:</span><span>{info.ip || "---"}</span></li>
@@ -182,7 +190,6 @@ function App() {
 				<TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 				<Marker position={[info.location.lat || 0, info.location.lng || 0]} icon={locationIcon}></Marker>
 			</MapContainer>
-			{/* <img src="../design/desktop-design.jpg" alt="desktop" id="bg" /> */}
 		</>
 	)
 }
