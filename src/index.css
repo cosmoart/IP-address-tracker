@@ -6,6 +6,7 @@
 body {
 	background: url("assets/images/pattern-bg.png") no-repeat;
 	background-size: auto 40vh;
+	background-position: top center;
 	font-family: Rubik, system-ui;
 	color: var(--VeryDarkGray);
 	text-align: center;
@@ -35,5 +36,5 @@ body {
 	height: 60vh;
 	position: absolute;
 	bottom: 0;
-	z-index: -5;
+	/* z-index: -5; */
 }
