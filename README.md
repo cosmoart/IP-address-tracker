@@ -103,4 +103,4 @@ At the end the code of the map is as follows:
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 [live-page]: https://ip-trackerr.vercel.app
-[solution-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
+[solution-url]: https://www.frontendmentor.io/solutions/ip-address-tracker-solution-tHNFTFIXxt
